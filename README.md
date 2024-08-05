@@ -6,6 +6,11 @@ This extends the default IEEE bibliography styles `IEEETran.bst` and `IEEETranN.
 2. A linked DOI for `@article`, `@inproceedings`, and `@incollection`.
 	1. **Note that you have to include `\usepackage{doi}` for the DOIs to be linked.** Otherwise, they will appear as text only.
 
+## Usage
+
+For the standard IEEE conference/journal template or if you are using `\usepackage{cite}` for your citations, use the [IEEEtranDOIandURLwithDate.bst](IEEEtranDOIandURLwithDate.bst). 
+However, this file is not compatible with `natbib`. I.e., if you use `\usepackage{natbib}`, use the file [IEEEtranNDOIandURLwithDate.bst](IEEEtranNDOIandURLwithDate.bst) instead. 
+
 ## References & Acknowledgements
 
 1. DOI Support: Gist by ezod - https://gist.github.com/ezod/3373556
