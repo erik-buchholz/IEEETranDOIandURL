@@ -1,6 +1,6 @@
 # IEEETran.bst with DOI and Access Date Support
 
-This extends the default IEEE bibliography style `IEEETran.bst` by the following features:
+This extends the default IEEE bibliography styles `IEEETran.bst` and `IEEETranN.bst` by the following features:
 
 1. Access Date in the format `(Accessed 2024-07-29)` added to all `@misc` entries containing the fields `url` and `urldate`.
 2. A linked DOI for `@article`, `@inproceedings`, and `@incollection`.
