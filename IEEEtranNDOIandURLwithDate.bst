@@ -1492,7 +1492,7 @@ FUNCTION {format.article.title}
 { title duplicate$ empty$ 'skip$
     { this.to.prev.status
       this.status.std
-      "t" change.case$
+      % "t" change.case$  % If you want your titles to be in sentence case rather than title case, uncomment this line.
     }
   if$
   "title" bibinfo.check
@@ -1514,7 +1514,7 @@ FUNCTION {format.article.title.electronic}
     { this.to.prev.status
       this.status.std
       cap.status.std
-      "t" change.case$ 
+      % "t" change.case$  % If you want your titles to be in sentence case rather than title case, uncomment this line. 
     }
   if$
   "title" bibinfo.check
@@ -2022,24 +2022,24 @@ FUNCTION {format.doi}
 
 FUNCTION {format.url}
 { doi empty$
-{ is.use.url
-    { url empty$
-      { "" }
-      { this.to.prev.status
-        this.status.std
-        cap.yes 'status.cap :=
-        name.url.prefix " " *
-        "\url{" * url * "}" *
-        punct.no 'this.status.punct :=
-        punct.period 'prev.status.punct :=
-        space.normal 'this.status.space :=
-        space.normal 'prev.status.space :=
-        quote.no 'this.status.quote :=
-      }
+    { is.use.url
+        { url empty$
+            { "" }
+            { this.to.prev.status
+              this.status.std
+              cap.yes 'status.cap :=
+              name.url.prefix " " *
+              "\url{" * url * "}" *
+              punct.no 'this.status.punct :=
+              punct.period 'prev.status.punct :=
+              space.normal 'this.status.space :=
+              space.normal 'prev.status.space :=
+              quote.no 'this.status.quote :=
+            }
           if$
         }
         { "" }
-    if$
+      if$
     }
     { "" }
   if$
@@ -2049,23 +2049,23 @@ FUNCTION {format.url}
 
 FUNCTION {format.urldate}
 { doi empty$
-{ is.use.url
+    { is.use.url
         { url empty$
             { "" }
-  { urldate empty$
-    { "" }
-    { this.to.prev.status
-      this.status.std
-      cap.yes  'status.cap :=
-      " (" name.urldate.prefix * " " * urldate * ")" *
-      punct.period 'this.status.punct :=
+            { urldate empty$
+                { "" }
+                { this.to.prev.status
+                  this.status.std
+                  cap.yes  'status.cap :=
+                  " (" name.urldate.prefix * " " * urldate * ")" *
+                  punct.period 'this.status.punct :=
                   % Use this line if you want the URL to have a period after it before the date accessed
                   % punct.period 'prev.status.punct :=
-	  space.normal 'this.status.space :=
-      quote.no 'this.status.quote :=
-  }
-  if$
-  }
+                  space.normal 'this.status.space :=
+                  quote.no 'this.status.quote :=
+                }
+              if$
+            }
           if$
         }
         { "" }
