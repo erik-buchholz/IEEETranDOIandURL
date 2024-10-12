@@ -1978,6 +1978,26 @@ FUNCTION {format.phd.thesis.type}
 cap.status.std
 }
 
+%% WARN MISSING DOI AND URL
+
+FUNCTION {warn-missing-doi-url}
+{ doi empty$
+  url empty$
+  and
+    { "Warning--both DOI and URL are missing in entry `" cite$ * "'" * warning$ }
+    'skip$
+  if$
+}
+
+%% WARN MISSING DOI
+
+FUNCTION {warn-missing-doi}
+{ doi empty$
+    { "Warning--DOI is missing in entry `" cite$ * "'" * warning$ }
+    'skip$
+  if$
+}
+
 %% DOI
 
 FUNCTION {format.doi}
@@ -2001,6 +2021,7 @@ FUNCTION {format.doi}
 %% URL
 
 FUNCTION {format.url}
+{ doi empty$
 { is.use.url
     { url empty$
       { "" }
@@ -2015,6 +2036,9 @@ FUNCTION {format.url}
         space.normal 'prev.status.space :=
         quote.no 'this.status.quote :=
       }
+          if$
+        }
+        { "" }
     if$
     }
     { "" }
@@ -2024,7 +2048,10 @@ FUNCTION {format.url}
 %% URLDATE
 
 FUNCTION {format.urldate}
+{ doi empty$
 { is.use.url
+        { url empty$
+            { "" }
   { urldate empty$
     { "" }
     { this.to.prev.status
@@ -2032,16 +2059,23 @@ FUNCTION {format.urldate}
       cap.yes  'status.cap :=
       " (" name.urldate.prefix * " " * urldate * ")" *
       punct.period 'this.status.punct :=
-	  %use this line if you want the url to have a period after it before the date accessed
-      %punct.period 'prev.status.punct :=
+                  % Use this line if you want the URL to have a period after it before the date accessed
+                  % punct.period 'prev.status.punct :=
 	  space.normal 'this.status.space :=
       quote.no 'this.status.quote :=
   }
   if$
   }
-  {""}
+          if$
+        }
+        { "" }
+      if$
+    }
+    { "" }
   if$
 }
+
+
 
 
 
@@ -2068,9 +2102,11 @@ FUNCTION {article}
   format.pages output
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
-  format.doi output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
+  % warn-missing-doi       % Warn if DOI is missing
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2094,8 +2130,10 @@ FUNCTION {book}
   format.volume output
   format.number output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2112,8 +2150,10 @@ FUNCTION {booklet}
   format.address "address" bibinfo.check output
   format.date output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2130,8 +2170,10 @@ FUNCTION {electronic}
   format.organization "organization" bibinfo.check output
   format.address "address" bibinfo.check output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2154,9 +2196,10 @@ FUNCTION {inbook}
   format.chapter output
   format.pages output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
-  format.doi output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2177,9 +2220,11 @@ FUNCTION {incollection}
   format.chapter output
   format.pages output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
-  format.doi output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
+  warn-missing-doi  % Warn if DOI is missing
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2205,9 +2250,11 @@ FUNCTION {inproceedings}
   format.paper output
   format.pages output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
-  format.doi output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
+  % warn-missing-doi  % Warn if DOI is missing
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2224,8 +2271,10 @@ FUNCTION {manual}
   format.address "address" bibinfo.check output
   format.date output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2242,8 +2291,10 @@ FUNCTION {mastersthesis}
   format.address "address" bibinfo.check output
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2262,8 +2313,10 @@ FUNCTION {misc}
   format.pages output
   format.date output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2280,8 +2333,10 @@ FUNCTION {patent}
   format.patent.nationality.type.number output
   format.patent.date output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   empty.entry.warn
   if.url.std.interword.spacing
@@ -2300,8 +2355,10 @@ FUNCTION {periodical}
   format.organization "organization" bibinfo.check output
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2318,8 +2375,10 @@ FUNCTION {phdthesis}
   format.address "address" bibinfo.check output
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2341,8 +2400,11 @@ FUNCTION {proceedings}
     }
   if$
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
+  warn-missing-doi       % Warn if DOI is missing
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2359,8 +2421,10 @@ FUNCTION {standard}
   format.revision output
   format.date output
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2378,8 +2442,10 @@ FUNCTION {techreport}
   format.tech.report.number output.nonnull
   format.date "year" output.warn
   format.note output
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
@@ -2393,8 +2459,10 @@ FUNCTION {unpublished}
   format.article.title "title" output.warn
   format.date output
   format.note "note" output.warn
+  format.doi output
   format.url output
   format.urldate output
+  warn-missing-doi-url   % Warn if neither DOI nor URL is present
   fin.entry
   if.url.std.interword.spacing
 }
